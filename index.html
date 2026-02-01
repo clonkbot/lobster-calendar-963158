@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦞</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lobster Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --ocean-deep: #0a1628;
+        --ocean-mid: #132744;
+        --ocean-light: #1e3a5f;
+        --lobster-red: #c41e3a;
+        --lobster-bright: #e63946;
+        --coral: #ff6b6b;
+        --coral-light: #ffa8a8;
+        --sand: #f5e6d3;
+        --seafoam: #5fb3b3;
+        --seafoam-light: #88d4d4;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--ocean-deep);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      
+      .font-display {
+        font-family: 'Playfair Display', serif;
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(2deg); }
+      }
+      
+      @keyframes bubble {
+        0% { transform: translateY(100%) scale(0); opacity: 0; }
+        10% { opacity: 0.6; }
+        100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+      }
+      
+      @keyframes wave {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      
+      @keyframes pinch {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(-15deg); }
+      }
+      
+      @keyframes shimmer {
+        0% { background-position: -200% center; }
+        100% { background-position: 200% center; }
+      }
+      
+      .animate-float {
+        animation: float 4s ease-in-out infinite;
+      }
+      
+      .animate-bubble {
+        animation: bubble 8s ease-in infinite;
+      }
+      
+      .animate-wave {
+        animation: wave 15s linear infinite;
+      }
+      
+      .animate-pinch:hover {
+        animation: pinch 0.3s ease-in-out;
+      }
+      
+      .shimmer {
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 3s infinite;
+      }
+      
+      .ocean-gradient {
+        background: linear-gradient(180deg, var(--ocean-deep) 0%, var(--ocean-mid) 50%, var(--ocean-light) 100%);
+      }
+      
+      .lobster-gradient {
+        background: linear-gradient(135deg, var(--lobster-red) 0%, var(--lobster-bright) 100%);
+      }
+      
+      .text-sand { color: var(--sand); }
+      .text-coral { color: var(--coral); }
+      .text-seafoam { color: var(--seafoam); }
+      .text-lobster { color: var(--lobster-red); }
+      .bg-ocean-deep { background-color: var(--ocean-deep); }
+      .bg-ocean-mid { background-color: var(--ocean-mid); }
+      .bg-ocean-light { background-color: var(--ocean-light); }
+      .bg-lobster { background-color: var(--lobster-red); }
+      .bg-coral { background-color: var(--coral); }
+      .bg-seafoam { background-color: var(--seafoam); }
+      .border-seafoam { border-color: var(--seafoam); }
+      .border-coral { border-color: var(--coral); }
+      
+      .calendar-day {
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      
+      .calendar-day:hover {
+        transform: scale(1.1) translateY(-2px);
+        z-index: 10;
+      }
+      
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(95, 179, 179, 0.3);
+        transform: scale(0);
+        animation: ripple-effect 0.6s linear;
+        pointer-events: none;
+      }
+      
+      @keyframes ripple-effect {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+      
+      .noise-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.03;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div class="noise-overlay"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
